@@ -1,0 +1,26 @@
+<section class="noteapp">
+  <header class="header">
+    <h1>Заметки</h1>
+
+    <!-- <input class="new-note" placeholder="Что запишем?" autofocus="" [(ngModel)]="newNote.title" (keyup.enter)="addNote()"> -->
+    <textarea class="new-note" autofocus="" [(ngModel)]="newNote.title" (keyup.enter)="addNote()"></textarea>
+  </header>
+
+  <section class="main" *ngIf="notes.length > 0">
+    <ul class="note-list">
+      <li *ngFor="let note of notes" [class.completed]="note.complete">
+        <div class="view">
+          <input class="toggle" type="checkbox" (click)="toggleNoteComplete(note)" [checked]="note.complete">
+
+          <!-- <label>{{note.title}}</label> -->
+          <input readonly size="100%" value={{note.title}}>
+          <button class="destroy" (click)="removeNote(note)"></button>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <footer class="footer" *ngIf="notes.length > 0">
+    <span class="note-count">Всего заметок: <strong>{{notes.length}}</strong></span>
+  </footer>
+</section>

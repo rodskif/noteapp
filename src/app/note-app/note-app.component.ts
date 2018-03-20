@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Note } from '../note';
 import { NoteService } from '../note.service';
 
@@ -14,6 +15,10 @@ export class NoteAppComponent {
   newNote: Note = new Note();
 
   constructor( private noteService: NoteService ) {}
+
+  submitForm(form: NgForm) {
+    console.log('Submited', form);
+  }
 
   toggleNoteComplete( note ) {
     this.noteService.toggleNoteComplete( note );
@@ -31,5 +36,6 @@ export class NoteAppComponent {
   get notes() {
     return this.noteService.getAllNotes();
   }
+
 
 }

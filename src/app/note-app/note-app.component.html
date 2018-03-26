@@ -1,65 +1,33 @@
-<section class="noteapp">
-  <div class="container">
-    <header class="header">
-      <nav class="navbar navbar-light bg-light justify-content-between border">
-        <a class="navbar-brand">Заметки</a>
-        <form class="form-inline">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <button type="button" class="btn btn-success round">+</button>
-      </nav>
+<div class="card bg-light new-card">
+  <form (ngSubmit)="submitForm(form)" #form="ngForm">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input class="form-control" name="title" id="title" placeholder="Что запишем?" autofocus="" [(ngModel)]="title">
+    </div>
+    <div class="form-group">
+      <label for="text">Text</label>
+      <textarea class="form-control" name="text" id="text" rows="3" [(ngModel)]="text"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="file">Example file input</label>
+      <input type="file" class="form-control-file" id="file" >
+    </div>
+    <button type="button" class="btn btn-success" (click)="addNote()">Add a note!</button>
+  </form>
+</div>
 
-      <!-- <input class="new-note" placeholder="Что запишем?" autofocus="" [(ngModel)]="newNote.title" (keyup.enter)="addNote()"> -->
-      <!-- <textarea class="new-note" autofocus="" [(ngModel)]="newNote.title" (keyup.enter)="addNote()"></textarea> -->
-      <div class="card bg-light new-card">
-        <form (ngSubmit)="submitForm(form)" #form="ngForm">
-          <div class="form-group">
-            <label for="title">Title</label>
-            <!-- <input type="text" class="form-control" id="title" placeholder="Type your title" [(ngModel)]="newNote.title" (keyup.enter)="addNote()"> -->
-            <input class="form-control" name="title" id="title" placeholder="Что запишем?" autofocus="" [(ngModel)]="newNote.title">
-          </div>
-          <div class="form-group">
-            <label for="text">Text</label>
-            <textarea class="form-control" name="text" id="text" rows="3" [(ngModel)]="newNote.text"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlFile1">Example file input</label>
-            <input type="file" class="form-control-file" id="exampleFormControlFile1">
-          </div>
-          <button type="button" class="btn btn-success" (click)="addNote()">Submit</button>
-        </form>
-      </div>
-    </header>
-
-  <!-- <section class="main" *ngIf="notes.length > 0">
-    <ul class="note-list">
-      <li *ngFor="let note of notes" [class.completed]="note.complete">
-        <div class="view">
-          <input class="toggle" type="checkbox" (click)="toggleNoteComplete(note)" [checked]="note.complete">
-          <label>{{note.title}}</label>
-          <input readonly size="100%" value={{note.title}}>
-          <p>{{note.text}}</p>
-          <button class="destroy" (click)="removeNote(note)"></button>
-        </div>
-      </li>
-    </ul>
-  </section> -->
-
-  <!-- <div class="container"> -->
-<section class="main" *ngIf="notes.length > 0">
-  <div class="card note-card text-white bg-secondary" *ngFor="let note of notes" [class.completed]="note.complete">
+<!-- <section class="main" *ngIf="notes.length > 0"> -->
+<div class="card note-card text-white bg-secondary" *ngFor="let note of notesItem | async">
     <div class="card-header">
       <h2>{{note.title}}</h2>
     </div>
     <div class="card-body">
-      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-      <!-- <pre class="card-text bold">
-{{note.text}}
-      </pre> -->
       <textarea class="form-control" name="textnote" rows="3">{{note.text}}</textarea>
       <p class="card-text"><small class="text-white italic">Comments</small></p>
-      <p class="card-footer">Lorem, ipsum dolor.</p>
+<!-- <disqus [shortname]="'nvxdev'" [identifier]=""></disqus> -->
+      <p class="card-footer">
+        <!-- <disqus [shortname]="'rodskif'" [identifier]=""></disqus> -->
+      </p>
       <div class="d-flex">
         <button type="button" class="btn btn-success mr-auto p-2">New comment</button>
         <button type="button" class="btn btn-dark p-2 edit" (click)="addNote(note)">Edit note</button>
@@ -67,13 +35,8 @@
       </div>
     </div>
   </div>
-</section>
-
-<!-- </div> -->
-
+<!-- </section> -->
 
   <footer class="bg-light border" *ngIf="notes.length > 0">
     <span class="note-count">Всего заметок: <strong>{{notes.length}}</strong></span>
   </footer>
-  </div>
-</section>

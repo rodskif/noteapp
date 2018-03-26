@@ -30,7 +30,6 @@ export class NoteService {
       }
 
       this.notes.push( note );
-
       return this;
     }
 

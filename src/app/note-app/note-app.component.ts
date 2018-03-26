@@ -21,8 +21,8 @@ export class Note {
 export class NoteAppComponent {
 
   //public notes: AngularFireList<Note[]>;
-  public notesItem: Observable<any[]>;
-  public notes: Observable<any[]>;
+  public notesItem: Observable<any>;
+  public notes: AngularFireList<any>;
 
     // constructor(db: AngularFireDatabase) {
       constructor(db: AngularFireDatabase) {

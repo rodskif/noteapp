@@ -1,9 +1,9 @@
 <div class="card bg-light new-card">
   <!-- <form (ngSubmit)="submitForm(form)" #form="ngForm"> -->
-  <form>
+  <form (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="title">Title</label>
-      <input class="form-control" name="title" id="title" placeholder="Что запишем?" autofocus="" [(ngModel)]="title">
+      <input class="form-control" name="title" id="title" placeholder="Что запишем?" autofocus="" [(ngModel)]="title" required>
     </div>
     <div class="form-group">
       <label for="text">Text</label>
@@ -23,7 +23,7 @@
       <h2>{{note.title}}</h2>
     </div>
     <div class="card-body">
-      <textarea class="form-control" name="textnote" rows="3">{{note.text}}</textarea>
+      <textarea #noteText class="form-control" name="textnote" rows="3">{{note.text}}</textarea>
       <p class="card-text"><small class="text-white italic">Comments</small></p>
 <!-- <disqus [shortname]="'nvxdev'" [identifier]=""></disqus> -->
       <p class="card-footer">
@@ -31,8 +31,8 @@
       </p>
       <div class="d-flex">
         <button type="button" class="btn btn-success mr-auto p-2">New comment</button>
-        <button type="button" class="btn btn-dark p-2 edit" (click)="addNote(note)">Edit note</button>
-        <button type="button" class="btn btn-dark p-2 destroy" (click)="removeNote(note)">Delete note</button>
+        <button type="button" class="btn btn-dark p-2 edit" (click)="updateNote(noteText.value, note)">Edit note (save changes)</button>
+        <button type="button" class="btn btn-dark p-2 destroy" (click)="deleteNote(note)">Delete note</button>
       </div>
     </div>
   </div>

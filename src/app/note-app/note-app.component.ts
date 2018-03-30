@@ -18,31 +18,49 @@ export class Note {
   templateUrl: './note-app.component.html',
   styleUrls: ['./note-app.component.css']
 })
+
 export class NoteAppComponent {
 
+  //public noteText: string;
   //public notes: AngularFireList<Note[]>;
   public notesItem: Observable<any>;
   public notes: AngularFireList<any>;
 
-    // constructor(db: AngularFireDatabase) {
-      constructor(db: AngularFireDatabase) {
-        // this.notes = db.list('/notes');
-         this.notesItem = db.list('/notes').valueChanges();
-         this.notes = db.list('/notes');
+      constructor(public db: AngularFireDatabase) {
+
+         this.notesItem = db.list('notes').valueChanges();
+         this.notes = db.list('notes');
     //     .valueChanges().subscribe(notes => {
     // console.log(notes);
-    // });    
+    // });
   }
 
-  // private noteCounter = 0;
   title: string = '';
   text: string = '';
 
   public addNote(): void {
-      // let newNote = new Note(`My book #${this.noteCounter++}`);
       let newNote = new Note(this.title, this.text);
-      this.notes.push(newNote);
+      //this.notes.push(newNote);
+      let receiptRef = this.notes.push(newNote);
+      receiptRef.update({ id: receiptRef.key });
+
+      //this.notes.push(newNote);
       this.title = '';
       this.text = '';
+    //  const pushId = this.db.createPushId();
+      console.log('key - ' + receiptRef.key + 'id - ' + receiptRef);
   }
+
+  public updateNote(value, note): void {
+    //noteText = note.text;
+    console.log('title - ' + note.title + '; text - ' + note.text + '; new text - ' + value );
+    this.notes.update(note.id, {text: value});
+    //console.log('title - ' + note.title + ' text - ' + note.text + ' new text - ' + this.text);
+  }
+
+  public deleteNote(note) {
+    console.log('object - ' + JSON.stringify(note) + ' key - ' + note.id);
+    this.notes.remove(note.id);
+  }
+
 }

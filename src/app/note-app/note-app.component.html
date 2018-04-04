@@ -18,7 +18,7 @@
 </div>
 
 <!-- <section class="main" *ngIf="notes.length > 0"> -->
-<div class="card note-card text-white bg-secondary" *ngFor="let note of notesItem | async">
+<div class="card note-card text-white bg-secondary" *ngFor="let note of listNotes() | async">
     <div class="card-header">
       <h2>{{note.title}}</h2>
     </div>

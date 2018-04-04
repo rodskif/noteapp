@@ -12,6 +12,11 @@ export class Note {
     constructor(public title, public text) { }
 }
 
+export class Comment {
+    constructor(public name, public comment) { }
+}
+
+
 @Component({
   moduleId: module.id,
   selector: 'app-note',
@@ -26,6 +31,9 @@ export class NoteAppComponent {
   public notesItem: Observable<any>;
   public notes: AngularFireList<any>;
 
+  public commentItem: Observable<any>;
+  public comments: AngularFireList<any>;
+
       constructor(public db: AngularFireDatabase) {
 
          this.notesItem = db.list('notes').valueChanges();
@@ -33,22 +41,30 @@ export class NoteAppComponent {
     //     .valueChanges().subscribe(notes => {
     // console.log(notes);
     // });
+
+         this.comments = db.list('notes-comments/');
+
+         
   }
+
 
   title: string = '';
   text: string = '';
+  //public isShow = false;
+  name: string = '';
+  comment: string = '';
 
   public addNote(): void {
       let newNote = new Note(this.title, this.text);
-      //this.notes.push(newNote);
       let receiptRef = this.notes.push(newNote);
       receiptRef.update({ id: receiptRef.key });
 
-      //this.notes.push(newNote);
+      //var noteKey = this.notes.push(newNote).key;
       this.title = '';
       this.text = '';
-    //  const pushId = this.db.createPushId();
+
       console.log('key - ' + receiptRef.key + 'id - ' + receiptRef);
+      //console.log('key - ' + noteKey);
   }
 
   public updateNote(value, note): void {
@@ -61,6 +77,48 @@ export class NoteAppComponent {
   public deleteNote(note) {
     console.log('object - ' + JSON.stringify(note) + ' key - ' + note.id);
     this.notes.remove(note.id);
+  }
+
+  // public newComment(): void {
+  //   this.isShow = true;
+  // }
+          
+  public addComment(note): void {
+    let newComment = new Comment(this.name, this.comment);
+    let commentRef = this.comments.push(newComment);
+    commentRef.update({ id: commentRef.key, note_id: note.id });
+
+    //this.commentItem = this.db.list('notes-comments', ref => ref.orderByChild("note_id").equalTo(note.id)).valueChanges();
+
+
+    //   this.commentItem.subscribe(res => {
+    //   console.log("res" + JSON.stringify(res));
+    //   res.forEach(comment => {
+    //     console.log("comment: " + comment.comment + " note_id = " + comment.note_id);
+    //   });
+    // });
+
+    this.name = '';
+    this.comment = '';
+
+    console.log(' ;) ');
+  }
+
+  public showComments(note) {
+
+    //this.commentItem = this.db.list('notes-comments', ref => ref.orderByChild("note_id").equalTo(note.id)).valueChanges();
+
+
+  }
+
+  public addComments(note): void {
+
+  // Find all dinosaurs whose height is exactly 25 meters.
+// var ref = firebase.database().ref("dinosaurs");
+// ref.orderByChild("height").equalTo(25).on("child_added", function(snapshot) {
+//   console.log(snapshot.key);
+// });
+
   }
 
 }

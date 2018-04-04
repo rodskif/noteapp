@@ -25,30 +25,24 @@ export class NoteAppComponent {
   //public notes: AngularFireList<Note[]>;
   public notesItem: Observable<any>;
   public notes: AngularFireList<any>;
-
-      constructor(public db: AngularFireDatabase) {
-
-         this.notesItem = db.list('notes').valueChanges();
-         this.notes = db.list('notes');
-    //     .valueChanges().subscribe(notes => {
-    // console.log(notes);
-    // });
+    
+  private noteService: NoteService;
+    
+    
+  constructor(public config: YourConfig) {
+    this.noteService = new NoteService();
+    if (config.connectivityType == ConnectivityType.FireBase) {
+        this.noteService.setStorageApi(new FirreBaseStorage());
+    } else {
+        this.noteService.setStorageApi(new LocalStorageStorage());
+    }
   }
 
   title: string = '';
   text: string = '';
 
   public addNote(): void {
-      let newNote = new Note(this.title, this.text);
-      //this.notes.push(newNote);
-      let receiptRef = this.notes.push(newNote);
-      receiptRef.update({ id: receiptRef.key });
-
-      //this.notes.push(newNote);
-      this.title = '';
-      this.text = '';
-    //  const pushId = this.db.createPushId();
-      console.log('key - ' + receiptRef.key + 'id - ' + receiptRef);
+      this.noteService.addNote(this.title, this.text);
   }
 
   public updateNote(value, note): void {

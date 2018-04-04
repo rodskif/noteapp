@@ -23,7 +23,7 @@ export class NoteAppComponent {
 
   //public noteText: string;
   //public notes: AngularFireList<Note[]>;
-  public notesItem: Observable<any>;
+  
   public notes: AngularFireList<any>;
     
   private noteService: NoteService;
@@ -40,6 +40,10 @@ export class NoteAppComponent {
 
   title: string = '';
   text: string = '';
+    
+  public listNotes(): Note[]{
+    return this.noteService.listNotes();
+  }
 
   public addNote(): void {
       this.noteService.addNote(this.title, this.text);

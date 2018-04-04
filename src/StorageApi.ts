@@ -1,5 +1,5 @@
 
 interface StrageApi {
-  public addNote(Note note): string;
+  public addNote(note: Note): string;
   // write others methods
 }

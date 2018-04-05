@@ -11,5 +11,10 @@ export class SetupPageComponent implements OnInit {
 
   ngOnInit() {
   }
+  public storage: string = 'firebase';
+  public onStorageChange(storage) {
+    this.storage = storage;
+    console.log(this.storage);
+  }
 
 }

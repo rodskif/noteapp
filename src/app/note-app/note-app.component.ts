@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NoteService } from '../note.service';
 
@@ -24,33 +24,32 @@ export class Comment {
   styleUrls: ['./note-app.component.css']
 })
 
-export class NoteAppComponent {
+export class NoteAppComponent implements OnInit {
 
-  //public noteText: string;
-  //public notes: AngularFireList<Note[]>;
   public notesItem: Observable<any>;
   public notes: AngularFireList<any>;
 
   public commentItem: Observable<any>;
   public comments: AngularFireList<any>;
 
-      constructor(public db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase) {
 
          this.notesItem = db.list('notes').valueChanges();
          this.notes = db.list('notes');
     //     .valueChanges().subscribe(notes => {
     // console.log(notes);
     // });
-
          this.comments = db.list('notes-comments/');
+  }
+  ngOnInit() {
 
-         
+
   }
 
 
   title: string = '';
   text: string = '';
-  //public isShow = false;
+
   name: string = '';
   comment: string = '';
 
@@ -58,20 +57,15 @@ export class NoteAppComponent {
       let newNote = new Note(this.title, this.text);
       let receiptRef = this.notes.push(newNote);
       receiptRef.update({ id: receiptRef.key });
-
       //var noteKey = this.notes.push(newNote).key;
       this.title = '';
       this.text = '';
-
       console.log('key - ' + receiptRef.key + 'id - ' + receiptRef);
-      //console.log('key - ' + noteKey);
   }
 
   public updateNote(value, note): void {
-    //noteText = note.text;
     console.log('title - ' + note.title + '; text - ' + note.text + '; new text - ' + value );
     this.notes.update(note.id, {text: value});
-    //console.log('title - ' + note.title + ' text - ' + note.text + ' new text - ' + this.text);
   }
 
   public deleteNote(note) {
@@ -79,10 +73,6 @@ export class NoteAppComponent {
     this.notes.remove(note.id);
   }
 
-  // public newComment(): void {
-  //   this.isShow = true;
-  // }
-          
   public addComment(note): void {
     let newComment = new Comment(this.name, this.comment);
     let commentRef = this.comments.push(newComment);
@@ -90,14 +80,12 @@ export class NoteAppComponent {
 
     //this.commentItem = this.db.list('notes-comments', ref => ref.orderByChild("note_id").equalTo(note.id)).valueChanges();
 
-
     //   this.commentItem.subscribe(res => {
     //   console.log("res" + JSON.stringify(res));
     //   res.forEach(comment => {
     //     console.log("comment: " + comment.comment + " note_id = " + comment.note_id);
     //   });
     // });
-
     this.name = '';
     this.comment = '';
 
@@ -105,20 +93,13 @@ export class NoteAppComponent {
   }
 
   public showComments(note) {
-
     //this.commentItem = this.db.list('notes-comments', ref => ref.orderByChild("note_id").equalTo(note.id)).valueChanges();
 
-
-  }
-
-  public addComments(note): void {
-
   // Find all dinosaurs whose height is exactly 25 meters.
-// var ref = firebase.database().ref("dinosaurs");
-// ref.orderByChild("height").equalTo(25).on("child_added", function(snapshot) {
-//   console.log(snapshot.key);
-// });
-
+  // var ref = firebase.database().ref("dinosaurs");
+  // ref.orderByChild("height").equalTo(25).on("child_added", function(snapshot) {
+  //   console.log(snapshot.key);
+  // });
   }
 
 }
